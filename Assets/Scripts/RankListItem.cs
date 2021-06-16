@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Object = System.Object;
 
 public class RankListItem : MonoBehaviour
 {
@@ -34,6 +35,7 @@ public class RankListItem : MonoBehaviour
             rankText.gameObject.SetActive(true);
         }
         arenaBadge.sprite = Resources.Load<Sprite>("arenaBadge/arenaBadge_" + (rankListData.trophy / 1000 + 1).ToString());
+        arenaBadge.SetNativeSize();
         //添加点击事件监听
         clickbtn.onClick.AddListener(new UnityEngine.Events.UnityAction(
             () => { ClickRankListBtn(rankListData.name, idx+1);}));
@@ -46,7 +48,7 @@ public class RankListItem : MonoBehaviour
     /// <param name="rankNum"></param>
     private void ClickRankListBtn(string name,int rankNum)
     {
-        print("RankNum"+rankNum);
-        RankPanel.Instance.CreateMeaasgePanel(name,rankNum); //调用排行榜界面的创建弹窗信息功能
+        object[] objects = new Object[]{name,rankNum.ToString()};
+        SendMessageUpwards("CreateMessagePanel",objects);
     }
 }

@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class RankPanel : MonoBehaviour
 {
-    public static RankPanel Instance;
     private int lastTime;
 
     [SerializeField] private Text lastTimeText;
@@ -18,14 +17,19 @@ public class RankPanel : MonoBehaviour
     [SerializeField] private Button closeRankPanelBtn;
     [SerializeField] private GameObject startPanel;
     [SerializeField] private RankMessage rankMessage;
-    private void Awake()
+
+    private void OnEnable()
     {
-        Instance = this;
+        lastTime = RankParseData.lastCurrent - (int)Time.realtimeSinceStartup;
+        if (lastTime > 0)
+        {
+            StartCoroutine("CountDown");
+        }
     }
 
     private void Start()
     {
-        lastTime = RankParseData.lastCurrent;
+        lastTime = RankParseData.lastCurrent-(int)Time.realtimeSinceStartup;
         StartCoroutine("CountDown");
         SetMySelfRankUI();
         closeRankPanelBtn.onClick.AddListener(ColseRankPanel);
@@ -56,7 +60,6 @@ public class RankPanel : MonoBehaviour
     /// <param name="lastTime"></param>
     private void UpdataTime(int lastTime)
     {
-        int day = lastTime / (24 * 60 * 60);
         TimeSpan time = TimeSpan.FromSeconds(lastTime);
         lastTimeText.text = time.Days + "d " + time.Hours + "h " + time.Minutes + "m " + time.Seconds + "s";
     }
@@ -80,8 +83,7 @@ public class RankPanel : MonoBehaviour
             index++;
         }
     }
-
-    private RankMessage rm;
+    
     /// <summary>
     /// 在RankPanel界面下实例化 弹窗，显示点击用户信息
     /// </summary>
@@ -89,10 +91,6 @@ public class RankPanel : MonoBehaviour
     /// <param name="num"></param>
     public void CreateMeaasgePanel(string name, int num)
     {
-        if (rm == null)
-        {
-            rm = Instantiate(rankMessage, transform);
-        }
-        rm.ShowNameAndNum(name, num);
+        rankMessage.ShowNameAndNum(name,num);
     }
 }

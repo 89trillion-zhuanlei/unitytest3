@@ -12,7 +12,6 @@ public class RankParseData : MonoBehaviour
     {
         rankListData = jsonParseData.JsonParseContent();
         rankListData.Sort();
-        print(rankListData);
         lastCurrent = jsonParseData.JsonparseLastTime();
     }
     

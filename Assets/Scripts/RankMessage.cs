@@ -6,14 +6,9 @@ using UnityEngine;
 using UnityEngine.UI;
 public class RankMessage : MonoBehaviour
 {
-    public static RankMessage Instance;
     [SerializeField] private Text userName;
     [SerializeField] private Text rankNum;
     [SerializeField] private Button closeBtn;
-    private void Awake()
-    {
-        Instance = this;
-    }
 
     private void Start()
     {
@@ -32,10 +27,10 @@ public class RankMessage : MonoBehaviour
     }
 
     /// <summary>
-    /// 销毁弹窗，下一次点击flag设置为false，防止出现重复点击事件
+    /// 关闭弹窗
     /// </summary>
     private void CloseRankMessage()
     {
-        Destroy(transform.gameObject);
+        transform.gameObject.SetActive(false);
     }
 }
